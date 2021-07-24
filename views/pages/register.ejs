@@ -1,0 +1,237 @@
+<%- include('../partials/header.ejs') %>
+    <!-- Main content -->
+    <section>
+        <div class="container d-flex flex-column">
+            <div class="row align-items-center justify-content-center min-vh-100">
+                <div class="col-md-12 col-lg-12 col-xl-12 py-6 py-md-0">
+                    <div class="card shadow zindex-100 mb-0">
+                        <div class="card-body px-md-5 py-5">
+                            <div class="mb-5">
+                                <h6 class="h3 text-center">NOMINATION FORM</h6>
+                                <p class="text-muted mb-0 text-center"><strong>OFFICE OF THE ELECTORAL COMMISSIONER - GREENWHICH HALL</strong></p>
+                            </div>
+                            <hr class="clearfix"></hr>
+                            <form class="row" action="/register" method="post" enctype="multipart/form-data">
+                                <div class="col-12">
+                                   <h3 class="lead"> PERSORNAL & PROFESSIONAL INFORMATION</h3><hr/>
+                                </div>
+                                <div class="form-group col-3">
+                                    <label class="form-control-label">E-voucher</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i data-feather="user"></i></span>
+                                        </div>
+                                        <input type="text" name="voucher" class="form-control" id="input-voucher" placeholder="e-voucher">
+                                    </div>
+                                </div>
+                                <div class="form-group col-3">
+                                    <label class="form-control-label">Photo Upload</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i data-feather="user"></i></span>
+                                        </div>
+                                        <input type="file" name="photo" class="form-control" id="input-voucher" placeholder="e-voucher">
+                                    </div>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label class="form-control-label">Full Name</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i data-feather="user"></i></span>
+                                        </div>
+                                        <input type="text" name="name" class="form-control" id="input-name" placeholder="Name">
+                                    </div>
+                                </div>
+                                <div class="form-group col-6">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div>
+                                            <label class="form-control-label">Current Position</label>
+                                        </div>
+                                        <div class="mb-2 d-none">
+                                            <a href="#" class="small text-muted text-underline--dashed border-primary" data-toggle="password-text" data-target="#input-password">Show password</a>
+                                        </div>
+                                    </div>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i data-feather="key"></i></span>
+                                        </div>
+                                        <input type="text" name="position" class="form-control" id="input-position" placeholder="Enter Position">
+                                    </div>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label class="form-control-label">Date of Birth</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i data-feather="user"></i></span>
+                                        </div>
+                                        <input type="date" name="dob" class="form-control" id="input-email" placeholder="Enter Date of Birth">
+                                    </div>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label class="form-control-label">Programme of Study</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i data-feather="user"></i></span>
+                                        </div>
+                                        <input type="text" name="program" class="form-control" id="input-program" placeholder="Enter Program">
+                                    </div>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label class="form-control-label">Nationality</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i data-feather="user"></i></span>
+                                        </div>
+                                        <input type="text" name="nationality" class="form-control" id="input-nation" placeholder="Enter Nationality">
+                                    </div>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label class="form-control-label">Home Town</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i data-feather="user"></i></span>
+                                        </div>
+                                        <input type="text" name="hometown" class="form-control" id="input-hometown" placeholder="Enter Hometown">
+                                    </div>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label class="form-control-label">Phone Number</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i data-feather="user"></i></span>
+                                        </div>
+                                        <input type="tel" name="phone" class="form-control" id="input-email" placeholder="Enter Phone">
+                                    </div>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label class="form-control-label">Home Address</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i data-feather="user"></i></span>
+                                        </div>
+                                        <input type="text"  name="address" class="form-control" id="input-address" placeholder="name@example.com">
+                                    </div>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label class="form-control-label">Email address</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i data-feather="user"></i></span>
+                                        </div>
+                                        <input type="email" name="email" class="form-control" id="input-email" placeholder="name@example.com">
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <hr/><h3 class="lead"> PRINCIPAL REFEREES ( FIVE )</h3><hr/>
+                                </div>
+                                <!--Referee 1 -->
+                                <div class="form-group col-6">
+                                    <label class="form-control-label">Full Name of Referee 1</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i data-feather="user"></i></span>
+                                        </div>
+                                        <input type="text" name="refname1" class="form-control" id="input-name" placeholder="Name of Referee">
+                                    </div>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label class="form-control-label">Phone Number of Referee 1</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i data-feather="user"></i></span>
+                                        </div>
+                                        <input type="tel" name="refphone1" class="form-control" id="input-email" placeholder="Enter Phone number">
+                                    </div>
+                                </div>
+                                 <!--Referee 2 -->
+                                 <div class="form-group col-6">
+                                    <label class="form-control-label">Full Name of Referee 2</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i data-feather="user"></i></span>
+                                        </div>
+                                        <input type="text" name="refname2" class="form-control" id="input-name" placeholder="Name of Referee">
+                                    </div>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label class="form-control-label">Phone Number of Referee 2</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i data-feather="user"></i></span>
+                                        </div>
+                                        <input type="tel" name="refphone2" class="form-control" id="input-refphone2" placeholder="Enter Phone number">
+                                    </div>
+                                </div>
+                                 <!--Referee 3 -->
+                                 <div class="form-group col-6">
+                                    <label class="form-control-label">Full Name of Referee 3</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i data-feather="user"></i></span>
+                                        </div>
+                                        <input type="text" name="refname3" class="form-control" id="input-refname3" placeholder="Name of Referee">
+                                    </div>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label class="form-control-label">Phone Number of Referee 3</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i data-feather="user"></i></span>
+                                        </div>
+                                        <input type="tel" name="refphone3" class="form-control" id="input-refphone3" placeholder="Enter Phone number">
+                                    </div>
+                                </div>
+                                 <!--Referee 4 -->
+                                 <div class="form-group col-6">
+                                    <label class="form-control-label">Full Name of Referee 4</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i data-feather="user"></i></span>
+                                        </div>
+                                        <input type="text" name="refname4" class="form-control" id="input-refname4" placeholder="Name of Referee">
+                                    </div>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label class="form-control-label">Phone Number of Referee 4</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i data-feather="user"></i></span>
+                                        </div>
+                                        <input type="tel" name="refphone4" class="form-control" id="input-refphone4" placeholder="Enter Phone number">
+                                    </div>
+                                </div>
+                                 <!--Referee 5 -->
+                                 <div class="form-group col-6">
+                                    <label class="form-control-label">Full Name of Referee 5</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i data-feather="user"></i></span>
+                                        </div>
+                                        <input type="text" name="refname5" class="form-control" id="input-refname5" placeholder="Name of Referee">
+                                    </div>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label class="form-control-label">Phone Number of Referee 5</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i data-feather="user"></i></span>
+                                        </div>
+                                        <input type="tel" name="refphone5" class="form-control" id="input-refphone5" placeholder="Enter Phone number">
+                                    </div>
+                                </div>
+
+                                
+                                <div class="mt-4">
+                                    <input type="hidden" name="id" value="0" class="form-control">
+                                    <button type="submit" class="btn btn-block btn-primary">Submit Form</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="card-footer px-md-5 d-none"><small>Not registered?</small>
+                            <a href="#" class="small font-weight-bold">Create account</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <%- include('../partials/footer.ejs') %>
