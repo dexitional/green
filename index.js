@@ -62,7 +62,7 @@ app.post('/register', (req,res) => {
       //res.send(`<h1> Congratulations! You have submitted your nomination successfully. Please verify your after 24hrs. Thank you!`)
       res.redirect('/print/'+req.body.voucher.trim())
     }else{
-      res.json("Error occurred")
+      res.send("<h1>INVALID VOUCHER</h1>")
     }
 })
 
