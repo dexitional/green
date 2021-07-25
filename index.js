@@ -20,6 +20,7 @@ app.use(fileupload())
 app.set('view engine','ejs')
 app.use('/assets',express.static(path.join(__dirname,'public','assets')))
 app.use('/public',express.static('public'))
+app.use('/photos',express.static('photos'))
 
 app.get('/', (req,res) => {
   res.render('pages/index')
@@ -49,16 +50,17 @@ app.post('/register', (req,res) => {
               })
               dt.photo = pt;
             }   
-            newrec = { ...dt,photo:pt }
+            newrec = { ...dt,photo:pt,used:1 }
             return newrec
         }   return r
       })
     }
 
     if(newrec){
-      fs.writeFile('./config/data.json',JSON.stringify({...data,data:mata}),(err)=>{ console.log(err)})
+      fs.writeFile('./config/data.json',JSON.stringify({...data,data:mata}),(err) => { console.log(err)})
       //res.json(data)
-      res.send(`<h1> Congratulations! You have submitted your nomination successfully. Please verify your after 24hrs. Thank you!`)
+      //res.send(`<h1> Congratulations! You have submitted your nomination successfully. Please verify your after 24hrs. Thank you!`)
+      res.redirect('/print/'+req.body.voucher.trim())
     }else{
       res.json("Error occurred")
     }
@@ -78,10 +80,12 @@ app.get('/genvoucher', (req,res) => {
 
 app.get('/vouchers', (req,res) => {
     var data = require('./config/data.json');
-    var dm = data.data.map((d) => {
-        return {voucher:d.voucher, sold: d.sold, applicant: d.name}
+    var output = `<table style="border:2px solid #666;padding:10px 15px"><tr style="background:#eee;padding:5px"><td><b>VOUCHER</b></td><td><b>SOLD</b></td><td><b>APPLICANT</b></td></tr/>`
+    data.data.map((d) => {
+       output += `<tr><td><b>${d.voucher}</b></td><td>${d.sold && d.sold == 1 ? 'YES':'NO'}</td><td>${d.name || ''}</td></tr>`;
     })
-    res.json(dm)
+    output += `</table>`
+    res.send(output)
 })
 
 
@@ -108,6 +112,7 @@ app.get('/resetvoucher', (req,res) => {
     var dm = data.data.map((d) => {
         if(d.voucher == vs.trim()){
            delete d.sold
+           delete d.used
            return d
         } 
         return d
@@ -115,6 +120,26 @@ app.get('/resetvoucher', (req,res) => {
     fs.writeFile('./config/data.json',JSON.stringify({...data,data:dm}),(err)=>{ console.log(err)})
     res.send(`<h1>Nomination Voucher : ${vs} has been reset and unsold successfully`);
 })
+
+app.get('/print/:id', (req,res) => {
+    const id = req.params.id.trim();
+    var data = require('./config/data.json')
+    const row = data.data.find( r => r.voucher == id)
+    if(row) return res.render('pages/print',{ row })
+    return res.json("No Record found !")
+});
+
+
+app.get('/applicants', (req,res) => {
+    var data = require('./config/data.json')
+    const rows = data.data.filter( r => r.used == 1)
+    if(rows.length > 0){
+      res.render('pages/applicant',{ rows })
+    }else{
+      res.send("<h3>No Application recorded !</h3>")
+    }
+   
+});
 
 
 app.listen(PORT, () => {

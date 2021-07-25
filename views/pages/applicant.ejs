@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Nomination Form - <%- new Date().getFullYear() %></title>
+    <style>
+  .html{
+    color:#000;
+  }
+
+.cover, .fade-bg { position: absolute;left:0;right:0; }
+.fade-bg { min-height: 100vh; z-index: 1; opacity:0.1 }
+.Footer { display:none !important;}
+
+.print{
+  display:block;
+  overflow:hidden;
+  position:relative;
+  width:930px;
+  min-height: 1350px;
+  margin:5px;
+}
+
+.cover{
+    border:1px solid #0243d2;
+    min-height:200px;
+    width:900px;
+    margin:10px auto;
+    padding: 20px;
+    z-index: 2;
+}
+
+.cover header{
+    display: flex;
+    justify-content: center;
+}
+
+.left-head{
+   width:25%;
+   flex:1.3;
+   display: flex;
+}
+
+.right-head{
+  flex:1.5;
+  align-items: flex-end !important;
+  justify-content: right;
+}
+
+.logo{
+   height:100px;
+   margin-right:15px;
+   display:block;
+}
+
+.left-cover{
+   width:350px;
+   word-wrap: break-word;
+}
+
+h2,h3{
+   font-family: serif,sans-serif;
+   word-wrap: break-word;
+   word-break: normal;
+}
+
+.left-head h2, h2{
+  font-size: 18px;
+  line-height:20px;
+  font-weight: bolder;
+  color:#111;
+}
+
+.left-head h3,h3{
+  font-size: 17px;
+  line-height:20px;
+  font-weight: bolder;
+}
+
+address{
+ max-width:200px;
+ float:right;
+ direction: rtl;
+ font: normal bolder 11px serif; 
+ color:#000;
+}
+
+hr{
+ margin: 0;
+}
+
+.aurora-small{
+  font-weight:400;
+  font-size: 11px;
+  color:#333;
+}
+
+.center{
+  text-align:center;
+}
+
+.w50{
+   width:65%;
+   display:block;
+}
+
+.ws-auto{
+  margin: 0 auto;
+}
+
+.red{
+  color: red;
+}
+
+.black{
+  color:#000 !important;
+}
+
+.ptable{
+  border:none;
+  box-shadow:none;
+  margin-top:15px;
+  width: auto;
+}
+
+.ptable td,.ptable tr{
+  padding: 5px 5px 5px 0;
+  border:none;
+  vertical-align: top;
+}
+
+h3.title{
+  border: 2px solid #ddd;
+  padding:5px 10px 5px 5px;
+  color:#000;
+  min-width: max-content;
+  max-width: fit-content;
+}
+
+.sbody{
+  width: 400px !important;
+  word-break: normal;
+  font: normal bolder 17px serif; 
+  color:#111;
+}
+
+.shead{
+  font: normal 400 17px serif; 
+  word-break: normal;
+  color:#111; 
+  min-width:180px;
+}
+
+.wrap{
+  word-break: normal;
+}
+
+.serif{
+  font-family:serif;
+  font-weight:500;
+}
+
+@media print{
+  .cover{
+    border: none;
+    page-break-after: always;
+  }
+
+  .pagebreak {
+    page-break-before: always;
+  }
+}
+
+  @page {
+    /*size: 50mm 80mm;*/
+  }
+
+  @media all {
+    .pagebreak {
+      display: none;
+    }
+  }
+
+  </style>
+  <script type="text/javascript">
+      window.print();
+  </script>
+</head>
+<body>
+  <%  rows.map(row => { %>
+  <div class="print">
+    <div class="fade-bg" style="background: url(/assets/img/green_logo.png) center 90% / 540px 650px no-repeat;"></div>
+    <div class="cover">
+        <header>
+            <div class="left-head"><img src="/assets/img/green_logo.png" class="logo">
+                <div class="left-cover">
+                    <h2><span style="font-size:32px;color:#0243d2">GREENWICH HALL</span><br/>COLLEGE OF HEALTH, KINTAMPO</h2>
+                    <h3 class="title-group">Online Nomination Form</h3>
+                </div>
+            </div>
+            <div class="right-head address">
+                <address>College of Health, Kintampo<br>P.O. Box 34<br>Kintampo, Bono  Region<br>COHK-Ghana<br><br>Tel:+233 3220 00001<br>Email:
+                    ec@greenwich.cohk.live<br><br><span class="aurora-small">24/07/2021</span></address>
+            </div>
+        </header>
+        <content>
+            <h3 class="center black"> Please Ensure That Accurate Information Is Provided Only To The Electoral Commision</h3><br>
+           <section>
+                <table class="ptable">
+                    <tr>
+                        <td style="min-width: 200px;">
+                            <h3 class="title">Personal & professional Information </h3>
+                        </td>
+                        <td colspan="2">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="5"><img src="<%- '/../'+row.photo %>" style="height: 200px; display: block;"></td>
+                        <td class="shead">Applicant ID:</td>
+                        <td class="sbody"><%- row.voucher.toUpperCase() %></td>
+                    </tr>
+                    <tr>
+                        <td class="shead">Full Name:</td>
+                        <td class="sbody"><small><b><%- row.name.toUpperCase() %></b></small></td>
+                    </tr>
+                    <tr>
+                        <td class="shead">Aspirant Position:</td>
+                        <td class="sbody"><small><b><%- row.position.toUpperCase() %></b></small></td>
+                    </tr>
+                   <tr>
+                        <td class="shead">Program of Study:</td>
+                        <td class="sbody"><%- row.program.toUpperCase() %></td>
+                    </tr>
+                    <tr>
+                        <td class="shead">Date of Birth:</td>
+                        <td class="sbody"><%- row.dob.toUpperCase() %></td>
+                    </tr>
+                    <tr>
+                        <td rowspan="5"></td>
+                        <td class="shead">Nationality:</td>
+                        <td class="sbody"><%- row.nationality.toUpperCase() %></td>
+                    </tr>
+                    <tr>
+                        <td class="shead">Hometown:</td>
+                        <td class="sbody"><%- row.hometown.toUpperCase() %></td>
+                    </tr>
+                    <tr>
+                        <td class="shead">Phone Number:</td>
+                        <td class="sbody"><%- row.phone.toUpperCase() %></td>
+                    </tr>
+                    <tr>
+                        <td class="shead">Home Address:</td>
+                        <td class="sbody"><%- row.address.toUpperCase() %></td>
+                    </tr>
+                    <tr>
+                        <td class="shead">Email Address:</td>
+                        <td class="sbody"><%- row.email.toUpperCase() %></td>
+                    </tr>
+                   
+                    <tr>
+                        <td colspan="3">
+                            <hr>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <h3 class="title"> Principal Referees (Five)</h3>
+                        </td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="10" class="shead">&nbsp;</td>
+                        <td class="shead">Name of Referee #1:</td>
+                        <td class="sbody"><%- row.refname1.toUpperCase() %></td>
+                    </tr>
+                    <tr>
+                        <td class="shead">Phone Number :</td>
+                        <td class="sbody"><%- row.refphone1.toUpperCase() %></td>
+                    </tr>
+                    <tr>
+                        <td class="shead">Name of Referee #2:</td>
+                        <td class="sbody"><%- row.refname2.toUpperCase() %></td>
+                    </tr>
+                    <tr>
+                        <td class="shead">Phone Number :</td>
+                        <td class="sbody"><%- row.refphone2.toUpperCase() %></td>
+                    </tr>
+                    <tr>
+                        <td class="shead">Name of Referee #3:</td>
+                        <td class="sbody"><%- row.refname3.toUpperCase() %></td>
+                    </tr>
+                    <tr>
+                        <td class="shead">Phone Number :</td>
+                        <td class="sbody"><%- row.refphone3.toUpperCase() %></td>
+                    </tr>
+                    <tr>
+                        <td class="shead">Name of Referee #4:</td>
+                        <td class="sbody"><%- row.refname4.toUpperCase() %></td>
+                    </tr>
+                    <tr>
+                        <td class="shead">Phone Number :</td>
+                        <td class="sbody"><%- row.refphone4.toUpperCase() %></td>
+                    </tr>
+                    <tr>
+                        <td class="shead">Name of Referee #5:</td>
+                        <td class="sbody"><%- row.refname5.toUpperCase() %></td>
+                    </tr>
+                    <tr>
+                        <td class="shead">Phone Number :</td>
+                        <td class="sbody"><%- row.refphone5.toUpperCase() %></td>
+                    </tr>
+
+                </table>
+            </section>
+        </content>
+    </div>
+  </div>
+  <% }) %>
+</body>
+</html>
