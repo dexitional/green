@@ -212,19 +212,19 @@ h3.title{
                     </tr>
                     <tr>
                         <td class="shead">Full Name:</td>
-                        <td class="sbody"><small><b><%- row.name.toUpperCase() %></b></small></td>
+                        <td class="sbody"><small><b><%- row.name && row.name.toUpperCase() %></b></small></td>
                     </tr>
                     <tr>
                         <td class="shead">Aspirant Position:</td>
-                        <td class="sbody"><small><b><%- row.position.toUpperCase() %></b></small></td>
+                        <td class="sbody"><small><b><%- row.position && row.position.toUpperCase() %></b></small></td>
                     </tr>
                    <tr>
                         <td class="shead">Program of Study:</td>
-                        <td class="sbody"><%- row.program.toUpperCase() %></td>
+                        <td class="sbody"><%- row.program && row.program.toUpperCase() %></td>
                     </tr>
                     <tr>
                         <td class="shead">Date of Birth:</td>
-                        <td class="sbody"><%- row.dob.toUpperCase() %></td>
+                        <td class="sbody"><%- row.dob && row.dob.toUpperCase() %></td>
                     </tr>
                     <tr>
                         <td rowspan="5"></td>
