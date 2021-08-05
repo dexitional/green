@@ -206,7 +206,7 @@ h3.title{
                         <td colspan="2">&nbsp;</td>
                     </tr>
                     <tr>
-                        <td rowspan="5"><img src="<%- '/../'+row.photo %>" style="height: 200px; display: block;"></td>
+                        <td rowspan="5"><img src="<%- row.photo ? '/../'+row.photo: '/assets/img/green_logo.png' %>" style="height: 200px; display: block;"></td>
                         <td class="shead">Applicant ID:</td>
                         <td class="sbody"><%- row.voucher.toUpperCase() %></td>
                     </tr>

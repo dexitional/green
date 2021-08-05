@@ -7,6 +7,7 @@ const path = require('path')
 const fs = require('fs');
 const { customAlphabet } = require('nanoid')
 const nanoid = customAlphabet('1234567890abcdefgh', 8)
+const db = require('./config/mysql')
 
 
 
@@ -34,111 +35,87 @@ app.get('/register', (req,res) => {
     res.render('pages/register')
 })
 
-app.post('/register', (req,res) => {
-    var data = require('./config/data.json')
-    var newrec
-    var mata = data.data
-    //const rec = data.data.find( r => r.voucher == req.body.voucher.trim())
-    if(mata){
-      mata = mata.map( r => {
-        if(r.voucher == req.body.voucher.trim()){
-            let dt = {...r,...req.body}
-            const pt = `./photos/${req.body.voucher}.${req.files.photo.mimetype.split('/')[1]}`
-            if(req.files.photo){
-              req.files.photo.mv(pt,(err)=>{
-                 console.log(err);
-              })
-              dt.photo = pt;
-            }   
-            newrec = { ...dt,photo:pt,used:1 }
-            return newrec
-        }   return r
-      })
-    }
-
-    if(newrec){
-      fs.writeFile('./config/data.json',JSON.stringify({...data,data:mata}),(err) => { console.log(err)})
-      //res.json(data)
-      //res.send(`<h1> Congratulations! You have submitted your nomination successfully. Please verify your after 24hrs. Thank you!`)
-      res.redirect('/print/'+req.body.voucher.trim())
+app.post('/register', async(req,res) => {
+    const s = await db.query("select * from applicant where voucher = '"+req.body.voucher.trim()+"'")
+    if(s.length > 0){
+       const pt = req.files ? `./photos/${req.body.voucher}.${req.files.photo.mimetype.split('/')[1]}`: null;
+       if(req.files){
+         req.files.photo.mv(pt,(err)=>{
+           console.log(err);
+         })
+         req.body.photo = pt;
+       } req.body.used = 1
+       const up = await db.query("update applicant set ? where voucher = '"+req.body.voucher.trim()+"'", req.body)
+       res.redirect('/print/'+req.body.voucher.trim())
     }else{
       res.send("<h1>INVALID VOUCHER</h1>")
     }
 })
 
-app.get('/genvoucher', (req,res) => {
-  var data = require('./config/data.json');
+app.get('/genvoucher', async(req,res) => {
+  var data = [];
   const limit = parseInt(req.query.limit) || 1;
   for(var i = 0; i < limit; i++){
       const voucher = nanoid()
       const dt = { voucher }
-      data.data.push({...dt})
+      await db.query("insert into applicant set ?",dt)
+      data.push({...dt})
   }
-  fs.writeFile('./config/data.json',JSON.stringify(data),(err)=>{ console.log(err)})
   res.json(data)
 })
 
-app.get('/vouchers', (req,res) => {
-    var data = require('./config/data.json');
+app.get('/vouchers', async(req,res) => {
+    const data = await db.query("select * from applicant");
     var output = `<table style="border:2px solid #666;padding:10px 15px"><tr style="background:#eee;padding:5px"><td><b>VOUCHER</b></td><td><b>SOLD</b></td><td><b>APPLICANT</b></td></tr/>`
-    data.data.map((d) => {
-       output += `<tr><td><b>${d.voucher}</b></td><td>${d.sold && d.sold == 1 ? 'YES':'NO'}</td><td>${d.name || ''}</td></tr>`;
-    })
+    if(data.length > 0){
+      data.map((d) => {
+        output += `<tr><td><b>${d.voucher}</b></td><td>${d.sold && d.sold == 1 ? 'YES':'NO'}</td><td>${d.name || ''}</td></tr>`;
+      })
+    }
     output += `</table>`
     res.send(output)
 })
 
 
-app.get('/sellvoucher', (req,res) => {
-    var data = require('./config/data.json');
-    var voucher;
-    var dm = data.data.map((d) => {
-        if(!d.sold){
-          if(!voucher){
-            voucher = d.voucher
-            d.sold = 1;
-          } 
-          return d
-        } return d
-    })
-    fs.writeFile('./config/data.json',JSON.stringify({...data,data:dm}),(err)=>{ console.log(err)})
-    res.send(`<h1>Nomination Voucher : ${voucher}`);
+app.get('/sellvoucher', async(req,res) => {
+    const data = await db.query("select * from applicant where sold = 0 limit 1");
+    if(data.length > 0){
+       await db.query("update applicant set sold = 1 where id = "+data[0].id)
+       res.send(`<h1>Nomination Voucher : ${data[0].voucher}`);
+    }else{
+       res.send(`<h1>No Voucher available to sell</h1>`);
+    }
 })
 
-app.get('/resetvoucher', (req,res) => {
-    var data = require('./config/data.json');
+app.get('/resetvoucher', async(req,res) => {
     const vs = req.query.voucher;
-    var voucher;
-    var dm = data.data.map((d) => {
-        if(d.voucher == vs.trim()){
-           delete d.sold
-           delete d.used
-           return d
-        } 
-        return d
-    })
-    fs.writeFile('./config/data.json',JSON.stringify({...data,data:dm}),(err)=>{ console.log(err)})
-    res.send(`<h1>Nomination Voucher : ${vs} has been reset and unsold successfully`);
+    const data = await db.query("select * from applicant where voucher = '"+vs+"'");
+    if(data.length > 0){
+       await db.query("update applicant set sold = 0,used = 0 where id = "+data[0].id)
+       res.send(`<h1>Nomination Voucher : ${vs} has been reset and unsold successfully`);
+    }else{
+       res.send(`<h1>Voucher reset failed !</h1>`);
+    }
 })
 
-app.get('/print/:id', (req,res) => {
+app.get('/print/:id', async(req,res) => {
     const id = req.params.id.trim();
-    var data = require('./config/data.json')
-    const row = data.data.find( r => r.voucher == id)
-    if(row) return res.render('pages/print',{ row })
-    return res.json("No Record found !")
+    const data = await db.query("select *,date_format(dob,'%M %d, %Y') as dob from applicant where voucher = '"+id+"'");
+    if(data.length > 0){
+      res.render('pages/print',{ row:data[0] })
+    }else{
+      return res.json("No Record found !")
+    }
 });
 
 
-app.get('/applicants', (req,res) => {
-    var data = require('./config/data.json')
-    const rows = data.data.filter( r => r.used == 1)
-    if(rows.length > 0){
-      res.render('pages/applicant',{ rows })
+app.get('/applicants', async(req,res) => {
+    const data = await db.query("select *,date_format(dob,'%M %d, %Y') as dob from applicant where used = 1");
+    if(data.length > 0){
+      res.render('pages/applicant',{ rows: data })
     }else{
       res.send("<h3>No Application recorded !</h3>")
     }
-   
 });
 
 
