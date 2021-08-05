@@ -91,7 +91,7 @@ app.get('/resetvoucher', async(req,res) => {
     const vs = req.query.voucher;
     const data = await db.query("select * from applicant where voucher = '"+vs+"'");
     if(data.length > 0){
-       await db.query("update applicant set sold = 0,used = 0 where id = "+data[0].id)
+       await db.query("update applicant set sold = 0, used = 0 where id = "+data[0].id)
        res.send(`<h1>Nomination Voucher : ${vs} has been reset and unsold successfully`);
     }else{
        res.send(`<h1>Voucher reset failed !</h1>`);
