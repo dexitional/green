@@ -45,6 +45,8 @@ app.post('/register', async(req,res) => {
          })
          req.body.photo = pt;
        } req.body.used = 1
+       
+       delete req.body.id
        const up = await db.query("update applicant set ? where voucher = '"+req.body.voucher.trim()+"'", req.body)
        res.redirect('/print/'+req.body.voucher.trim())
     }else{
